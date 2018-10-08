@@ -40,7 +40,7 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}0"
       nStr += "0"
 
-      taxIncluded.text = calculator().toString()
+      calculator()
     }
 
     btn_1.setOnClickListener {
@@ -48,7 +48,7 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}1"
       nStr += "1"
 
-      taxIncluded.text = calculator().toString()
+      calculator()
     }
 
     btn_2.setOnClickListener {
@@ -56,7 +56,7 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}2"
       nStr += "2"
 
-      taxIncluded.text = calculator().toString()
+      calculator()
     }
 
     btn_3.setOnClickListener {
@@ -64,7 +64,7 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}3"
       nStr += "3"
 
-      taxIncluded.text = calculator().toString()
+      calculator()
     }
 
     btn_4.setOnClickListener {
@@ -72,7 +72,7 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}4"
       nStr += "4"
 
-      taxIncluded.text = calculator().toString()
+      calculator()
     }
 
     btn_5.setOnClickListener {
@@ -80,7 +80,7 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}5"
       nStr += "5"
 
-      taxIncluded.text = calculator().toString()
+      calculator()
     }
 
     btn_6.setOnClickListener {
@@ -88,7 +88,7 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}6"
       nStr += "6"
 
-      taxIncluded.text = calculator().toString()
+      calculator()
     }
 
     btn_7.setOnClickListener {
@@ -96,7 +96,7 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}7"
       nStr += "7"
 
-      taxIncluded.text = calculator().toString()
+      calculator()
     }
 
     btn_8.setOnClickListener {
@@ -104,7 +104,7 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}8"
       nStr += "8"
 
-      taxIncluded.text = calculator().toString()
+      calculator()
     }
 
     btn_9.setOnClickListener {
@@ -112,7 +112,7 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}9"
       nStr += "9"
 
-      taxIncluded.text = calculator().toString()
+      calculator()
     }
 
     btn_plus.setOnClickListener {
@@ -213,22 +213,12 @@ class MainActivity : Activity() {
       if (formula.text.last() == '×') return@setOnClickListener
       if (formula.text.last() == '÷') return@setOnClickListener
 
-      addList(nStr)
       val result = calculator().toString()
       formula.text = result
-      btn_DEL.text = "CLR"
       nStr = result
       nList.clear()
       oList.clear()
-    }
-  }
-
-  private fun addList(str: String) {
-    try {
-      val num = str.toLong()
-      nList.add(num)
-    } catch (e: Exception) {
-      println(e)
+      btn_DEL.text = getString(R.string.btn_CLR)
     }
   }
 
@@ -252,6 +242,7 @@ class MainActivity : Activity() {
     btn_DEL.text = getString(R.string.btn_DEL)
   }
 
+  @SuppressLint("SetTextI18n")
   private fun calculator(): Long {
     var i = 0
     val nList = ArrayList<Long>(this.nList)
@@ -280,6 +271,9 @@ class MainActivity : Activity() {
       result += temp
     }
 
+    taxExcluded.text = getString(R.string.taxExcluded) + result
+    taxIncluded.text = getString(R.string.taxIncluded) + (result * 1.08).toLong()
+
     Log.d("##################", "##################")
     Log.d("this.nStr", nStr)
     Log.d("this.nList", this.nList.toString())
@@ -288,7 +282,7 @@ class MainActivity : Activity() {
     Log.d("local.oList", oList.toString())
     Log.d("result", result.toString())
 
-    return result
+    return (result * 1.08).toLong()
 
   }
 }

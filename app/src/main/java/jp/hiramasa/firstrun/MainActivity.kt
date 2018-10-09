@@ -194,8 +194,8 @@ class MainActivity : Activity() {
         println(e)
       }
 
-      if (!nStr.isEmpty()) taxIncluded.text = calculator().toString()
-      else if (formula.text == "") taxIncluded.text = ""
+      if (!nStr.isEmpty()) calculator()
+      else if (formula.text == "") clear()
     }
 
     btn_DEL.setOnLongClickListener {

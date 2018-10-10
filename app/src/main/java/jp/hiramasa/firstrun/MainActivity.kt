@@ -8,6 +8,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.logging.Filter
 
 class MainActivity : Activity() {
 
@@ -266,10 +267,7 @@ class MainActivity : Activity() {
       println(e)
     }
 
-    var result = 0L
-    for (temp in nList) {
-      result += temp
-    }
+    val result = nList.sum()
 
     taxExcluded.text = getString(R.string.taxExcluded) + result
     taxIncluded.text = getString(R.string.taxIncluded) + (result * 1.08).toLong()

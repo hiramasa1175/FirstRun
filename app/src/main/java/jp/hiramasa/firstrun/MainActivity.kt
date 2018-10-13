@@ -7,14 +7,17 @@ import android.util.Log
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import jp.hiramasa.firstrun.R.id.formula
+import jp.hiramasa.firstrun.R.id.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : Activity() {
 
   private var nStr: String = ""
-  private val nList = mutableListOf<Long>()
+  private val nList = mutableListOf<Int>()
   private val oList = mutableListOf<Char>()
+
+  val CENTER_OR_RIGHT = 21
+  val BUTTOM_OR_RIGHT = 85
 
   lateinit var mAdView: AdView
 
@@ -33,6 +36,8 @@ class MainActivity : Activity() {
     btn_0.setOnClickListener {
       if (btn_DEL.text == "CLR") clear()
       if (formula.text == "") return@setOnClickListener
+      if (formula.length() > 29) return@setOnClickListener
+      if (nStr.length > 8) return@setOnClickListener
       if (formula.text.last() == '+') return@setOnClickListener
       if (formula.text.last() == '−') return@setOnClickListener
       if (formula.text.last() == '×') return@setOnClickListener
@@ -41,83 +46,121 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}0"
       nStr += "0"
 
+      formulaSetSize()
       calculator()
     }
 
     btn_1.setOnClickListener {
+      if (formula.length() > 29) return@setOnClickListener
+      if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == "CLR") clear()
+
       formula.text = "${formula.text}1"
       nStr += "1"
 
+      formulaSetSize()
       calculator()
     }
 
     btn_2.setOnClickListener {
+      if (formula.length() > 29) return@setOnClickListener
+      if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == "CLR") clear()
+
       formula.text = "${formula.text}2"
       nStr += "2"
 
+      formulaSetSize()
       calculator()
     }
 
     btn_3.setOnClickListener {
+      if (formula.length() > 29) return@setOnClickListener
+      if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == "CLR") clear()
+
       formula.text = "${formula.text}3"
       nStr += "3"
 
+      formulaSetSize()
       calculator()
     }
 
     btn_4.setOnClickListener {
+      if (formula.length() > 29) return@setOnClickListener
+      if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == "CLR") clear()
+
       formula.text = "${formula.text}4"
       nStr += "4"
 
+      formulaSetSize()
       calculator()
     }
 
     btn_5.setOnClickListener {
+      if (formula.length() > 29) return@setOnClickListener
+      if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == "CLR") clear()
+
       formula.text = "${formula.text}5"
       nStr += "5"
 
+      formulaSetSize()
       calculator()
     }
 
     btn_6.setOnClickListener {
+      if (formula.length() > 29) return@setOnClickListener
+      if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == "CLR") clear()
+
       formula.text = "${formula.text}6"
       nStr += "6"
 
+      formulaSetSize()
       calculator()
     }
 
     btn_7.setOnClickListener {
+      if (formula.length() > 29) return@setOnClickListener
+      if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == "CLR") clear()
+
       formula.text = "${formula.text}7"
       nStr += "7"
 
+      formulaSetSize()
       calculator()
     }
 
     btn_8.setOnClickListener {
+      if (formula.length() > 29) return@setOnClickListener
+      if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == "CLR") clear()
+
       formula.text = "${formula.text}8"
       nStr += "8"
 
+      formulaSetSize()
       calculator()
     }
 
     btn_9.setOnClickListener {
+      if (formula.length() > 29) return@setOnClickListener
+      if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == "CLR") clear()
+
       formula.text = "${formula.text}9"
       nStr += "9"
 
+      formulaSetSize()
       calculator()
     }
 
     btn_plus.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
+      if (formula.length() > 29) return@setOnClickListener
       if (formula.text.last() == '+') return@setOnClickListener
       if (formula.text.last() == '−') return@setOnClickListener
       if (formula.text.last() == '×') return@setOnClickListener
@@ -128,10 +171,13 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}+"
       addList(nStr, '+')
       nStr = ""
+
+      formulaSetSize()
     }
 
     btn_minus.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
+      if (formula.length() > 29) return@setOnClickListener
       if (formula.text.last() == '+') return@setOnClickListener
       if (formula.text.last() == '−') return@setOnClickListener
       if (formula.text.last() == '×') return@setOnClickListener
@@ -142,10 +188,13 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}−"
       addList(nStr, '−')
       nStr = ""
+
+      formulaSetSize()
     }
 
     btn_times.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
+      if (formula.length() > 29) return@setOnClickListener
       if (formula.text.last() == '+') return@setOnClickListener
       if (formula.text.last() == '−') return@setOnClickListener
       if (formula.text.last() == '×') return@setOnClickListener
@@ -156,10 +205,13 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}×"
       addList(nStr, '×')
       nStr = ""
+
+      formulaSetSize()
     }
 
     btn_divided.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
+      if (formula.length() > 29) return@setOnClickListener
       if (formula.text.last() == '+') return@setOnClickListener
       if (formula.text.last() == '−') return@setOnClickListener
       if (formula.text.last() == '×') return@setOnClickListener
@@ -170,6 +222,8 @@ class MainActivity : Activity() {
       formula.text = "${formula.text}÷"
       addList(nStr, '÷')
       nStr = ""
+
+      formulaSetSize()
     }
 
     btn_DEL.setOnClickListener {
@@ -191,6 +245,8 @@ class MainActivity : Activity() {
 
       if (!nStr.isEmpty()) calculator()
       else if (formula.text == "") clear()
+
+      formulaSetSize()
     }
 
     btn_DEL.setOnLongClickListener {
@@ -215,12 +271,14 @@ class MainActivity : Activity() {
       nList.clear()
       oList.clear()
       btn_DEL.text = getString(R.string.btn_CLR)
+
+      formulaSetSize()
     }
   }
 
   private fun addList(str: String, ope: Char) {
     try {
-      val num = str.toLong()
+      val num = str.toInt()
       nList.add(num)
       oList.add(ope)
     } catch (e: Exception) {
@@ -239,10 +297,10 @@ class MainActivity : Activity() {
   }
 
   @SuppressLint("SetTextI18n")
-  private fun calculator(): Long {
+  private fun calculator(): Int {
     val nList = nList.toMutableList()
     val oList = oList.toMutableList()
-    nList.add(nStr.toLong())
+    nList.add(nStr.toInt())
 
     oList
         .filter { it == '×' || it == '÷' }
@@ -264,17 +322,33 @@ class MainActivity : Activity() {
         }
 
     taxExcluded.text = getString(R.string.taxExcluded) + nList[0]
-    taxIncluded.text = getString(R.string.taxIncluded) + (nList[0] * 1.08).toLong()
+    taxIncluded.text = getString(R.string.taxIncluded) + (nList[0] * 1.08).toInt()
 
-    Log.d("##################", "##################")
-    Log.d("this.nStr", nStr)
-    Log.d("this.nList", this.nList.toString())
-    Log.d("this.oList", this.oList.toString())
-    Log.d("local.nList", nList.toString())
-    Log.d("local.oList", oList.toString())
-    Log.d("result", nList[0].toString())
+//    Log.d("##################", "##################")
+//    Log.d("this.nStr", nStr)
+//    Log.d("this.nList", this.nList.toString())
+//    Log.d("this.oList", this.oList.toString())
+//    Log.d("local.nList", nList.toString())
+//    Log.d("local.oList", oList.toString())
+//    Log.d("result", nList[0].toString())
 
-    return (nList[0] * 1.08).toLong()
+    return (nList[0] * 1.08).toInt()
 
+  }
+
+  private fun formulaSetSize() {
+    when (formula.length()) {
+      in 15..19 -> {
+        formula.textSize = 30.0F
+        formula.gravity = CENTER_OR_RIGHT
+      }
+      in 20..30 -> formula.textSize = 20.0F
+      else -> {
+        formula.textSize = 40.0F
+        formula.gravity = BUTTOM_OR_RIGHT
+      }
+    }
+
+    println(formula.length())
   }
 }

@@ -8,13 +8,12 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.logging.Filter
 
 class MainActivity : Activity() {
 
   private var nStr: String = ""
-  private val nList = ArrayList<Long>()
-  private val oList = ArrayList<Char>()
+  private val nList = mutableListOf<Long>()
+  private val oList = mutableListOf<Char>()
 
   lateinit var mAdView: AdView
 
@@ -123,7 +122,7 @@ class MainActivity : Activity() {
       if (formula.text.last() == '×') return@setOnClickListener
       if (formula.text.last() == '÷') return@setOnClickListener
 
-      if (btn_DEL.text == "CLR") btn_DEL.text = "DEL"
+      if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
 
       formula.text = "${formula.text}+"
       addList(nStr, '+')
@@ -137,7 +136,7 @@ class MainActivity : Activity() {
       if (formula.text.last() == '×') return@setOnClickListener
       if (formula.text.last() == '÷') return@setOnClickListener
 
-      if (btn_DEL.text == "CLR") btn_DEL.text = "DEL"
+      if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
 
       formula.text = "${formula.text}−"
       addList(nStr, '−')
@@ -151,7 +150,7 @@ class MainActivity : Activity() {
       if (formula.text.last() == '×') return@setOnClickListener
       if (formula.text.last() == '÷') return@setOnClickListener
 
-      if (btn_DEL.text == "CLR") btn_DEL.text = "DEL"
+      if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
 
       formula.text = "${formula.text}×"
       addList(nStr, '×')
@@ -165,7 +164,7 @@ class MainActivity : Activity() {
       if (formula.text.last() == '×') return@setOnClickListener
       if (formula.text.last() == '÷') return@setOnClickListener
 
-      if (btn_DEL.text == "CLR") btn_DEL.text = "DEL"
+      if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
 
       formula.text = "${formula.text}÷"
       addList(nStr, '÷')
@@ -174,7 +173,7 @@ class MainActivity : Activity() {
 
     btn_DEL.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
-      if (btn_DEL.text == "CLR") {
+      if (btn_DEL.text == getString(R.string.btn_CLR)) {
         clear()
         return@setOnClickListener
       }
@@ -245,32 +244,31 @@ class MainActivity : Activity() {
 
   @SuppressLint("SetTextI18n")
   private fun calculator(): Long {
-    var i = 0
-    val nList = ArrayList<Long>(this.nList)
-    val oList = ArrayList<Char>(this.oList)
+    val nList = nList.toMutableList()
+    val oList = oList.toMutableList()
     nList.add(nStr.toLong())
-    try {
-      while (i < oList.size) {
-        if (oList[i] == '×' || oList[i] == '÷') {
-          val result = if (oList[i] == '×') nList[i] * nList[i + 1] else nList[i] / nList[i + 1]
+
+    oList
+        .filter { it == '×' || it == '÷' }
+        .map {
+          val i = oList.indexOfFirst { it == '×' || it == '÷' }
+          val result = if (it == '×') nList[i] * nList[i + 1] else nList[i] / nList[i + 1]
           nList[i] = result
           nList.removeAt(i + 1)
           oList.removeAt(i)
-          i--
-        } else if (oList[i] == '−') {
-          oList[i] = '+'
-          nList[i + 1] = nList[i + 1] * -1
         }
-        i++
-      }
-    } catch (e: Exception) {
-      println(e)
-    }
 
-    val result = nList.sum()
+    oList
+        .filter { it == '+' || it == '−' }
+        .map {
+          val result = if (it == '+') nList[0] + nList[1] else nList[0] - nList[1]
+          nList[0] = result
+          nList.removeAt(1)
+          oList.removeAt(0)
+        }
 
-    taxExcluded.text = getString(R.string.taxExcluded) + result
-    taxIncluded.text = getString(R.string.taxIncluded) + (result * 1.08).toLong()
+    taxExcluded.text = getString(R.string.taxExcluded) + nList[0]
+    taxIncluded.text = getString(R.string.taxIncluded) + (nList[0] * 1.08).toLong()
 
     Log.d("##################", "##################")
     Log.d("this.nStr", nStr)
@@ -278,9 +276,9 @@ class MainActivity : Activity() {
     Log.d("this.oList", this.oList.toString())
     Log.d("local.nList", nList.toString())
     Log.d("local.oList", oList.toString())
-    Log.d("result", result.toString())
+    Log.d("result", nList[0].toString())
 
-    return (result * 1.08).toLong()
+    return (nList[0] * 1.08).toLong()
 
   }
 }

@@ -7,6 +7,7 @@ import android.util.Log
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import jp.hiramasa.firstrun.R.id.formula
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : Activity() {
@@ -173,16 +174,10 @@ class MainActivity : Activity() {
 
     btn_DEL.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
-      if (btn_DEL.text == getString(R.string.btn_CLR)) {
-        clear()
-        return@setOnClickListener
-      }
 
-      try {
+      if (btn_DEL.text == getString(R.string.btn_DEL)) {
         val formulaStr = formula.text.toString()
-        if (!formulaStr.isEmpty()) {
-          formula.text = formulaStr.subSequence(0, formulaStr.lastIndex)
-        }
+        formula.text = formulaStr.subSequence(0, formulaStr.lastIndex)
         if (!nStr.isEmpty()) {
           nStr = nStr.substring(0, nStr.lastIndex)
         } else if (!oList.isEmpty()) {
@@ -190,8 +185,8 @@ class MainActivity : Activity() {
           nList.remove(nList.last())
           oList.remove(oList.last())
         }
-      } catch (e: Exception) {
-        println(e)
+      } else {
+        clear()
       }
 
       if (!nStr.isEmpty()) calculator()
@@ -208,6 +203,7 @@ class MainActivity : Activity() {
 
     btn_equal.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
+      if (oList.isEmpty()) return@setOnClickListener
       if (formula.text.last() == '+') return@setOnClickListener
       if (formula.text.last() == '−') return@setOnClickListener
       if (formula.text.last() == '×') return@setOnClickListener

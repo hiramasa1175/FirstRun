@@ -348,7 +348,6 @@ class MainActivity : Activity() {
         formula.gravity = BUTTOM_OR_RIGHT
       }
     }
-
-    println(formula.length())
   }
+
 }

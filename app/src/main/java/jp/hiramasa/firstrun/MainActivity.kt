@@ -3,21 +3,19 @@ package jp.hiramasa.firstrun
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import jp.hiramasa.firstrun.R.id.*
 import kotlinx.android.synthetic.main.activity_main.*
+
+const val CENTER_OR_RIGHT = 21
+const val BOTTOM_OR_RIGHT = 85
 
 class MainActivity : Activity() {
 
   private var nStr: String = ""
   private val nList = mutableListOf<Int>()
   private val oList = mutableListOf<Char>()
-
-  val CENTER_OR_RIGHT = 21
-  val BUTTOM_OR_RIGHT = 85
 
   lateinit var mAdView: AdView
 
@@ -34,7 +32,7 @@ class MainActivity : Activity() {
     mAdView.loadAd(adRequest)
 
     btn_0.setOnClickListener {
-      if (btn_DEL.text == "CLR") clear()
+      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
       if (formula.text == "") return@setOnClickListener
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
@@ -53,7 +51,7 @@ class MainActivity : Activity() {
     btn_1.setOnClickListener {
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == "CLR") clear()
+      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
       formula.text = "${formula.text}1"
       nStr += "1"
@@ -65,7 +63,7 @@ class MainActivity : Activity() {
     btn_2.setOnClickListener {
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == "CLR") clear()
+      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
       formula.text = "${formula.text}2"
       nStr += "2"
@@ -77,7 +75,7 @@ class MainActivity : Activity() {
     btn_3.setOnClickListener {
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == "CLR") clear()
+      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
       formula.text = "${formula.text}3"
       nStr += "3"
@@ -89,7 +87,7 @@ class MainActivity : Activity() {
     btn_4.setOnClickListener {
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == "CLR") clear()
+      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
       formula.text = "${formula.text}4"
       nStr += "4"
@@ -101,7 +99,7 @@ class MainActivity : Activity() {
     btn_5.setOnClickListener {
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == "CLR") clear()
+      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
       formula.text = "${formula.text}5"
       nStr += "5"
@@ -113,7 +111,7 @@ class MainActivity : Activity() {
     btn_6.setOnClickListener {
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == "CLR") clear()
+      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
       formula.text = "${formula.text}6"
       nStr += "6"
@@ -125,7 +123,7 @@ class MainActivity : Activity() {
     btn_7.setOnClickListener {
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == "CLR") clear()
+      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
       formula.text = "${formula.text}7"
       nStr += "7"
@@ -137,7 +135,7 @@ class MainActivity : Activity() {
     btn_8.setOnClickListener {
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == "CLR") clear()
+      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
       formula.text = "${formula.text}8"
       nStr += "8"
@@ -149,7 +147,7 @@ class MainActivity : Activity() {
     btn_9.setOnClickListener {
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == "CLR") clear()
+      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
       formula.text = "${formula.text}9"
       nStr += "9"
@@ -162,9 +160,9 @@ class MainActivity : Activity() {
       if (formula.text == "") return@setOnClickListener
       if (formula.length() > 29) return@setOnClickListener
       if (formula.text.last() == '+') return@setOnClickListener
-      if (formula.text.last() == '−') return@setOnClickListener
-      if (formula.text.last() == '×') return@setOnClickListener
-      if (formula.text.last() == '÷') return@setOnClickListener
+
+      if (formula.text.last() == '−' || formula.text.last() == '×'
+          || formula.text.last() == '÷') del()
 
       if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
 
@@ -178,10 +176,10 @@ class MainActivity : Activity() {
     btn_minus.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
       if (formula.length() > 29) return@setOnClickListener
-      if (formula.text.last() == '+') return@setOnClickListener
       if (formula.text.last() == '−') return@setOnClickListener
-      if (formula.text.last() == '×') return@setOnClickListener
-      if (formula.text.last() == '÷') return@setOnClickListener
+
+      if (formula.text.last() == '+' || formula.text.last() == '×'
+          || formula.text.last() == '÷') del()
 
       if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
 
@@ -195,10 +193,10 @@ class MainActivity : Activity() {
     btn_times.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
       if (formula.length() > 29) return@setOnClickListener
-      if (formula.text.last() == '+') return@setOnClickListener
-      if (formula.text.last() == '−') return@setOnClickListener
       if (formula.text.last() == '×') return@setOnClickListener
-      if (formula.text.last() == '÷') return@setOnClickListener
+
+      if (formula.text.last() == '+' || formula.text.last() == '−'
+          || formula.text.last() == '÷') del()
 
       if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
 
@@ -212,10 +210,10 @@ class MainActivity : Activity() {
     btn_divided.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
       if (formula.length() > 29) return@setOnClickListener
-      if (formula.text.last() == '+') return@setOnClickListener
-      if (formula.text.last() == '−') return@setOnClickListener
-      if (formula.text.last() == '×') return@setOnClickListener
       if (formula.text.last() == '÷') return@setOnClickListener
+
+      if (formula.text.last() == '+' || formula.text.last() == '−'
+          || formula.text.last() == '×') del()
 
       if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
 
@@ -230,15 +228,7 @@ class MainActivity : Activity() {
       if (formula.text == "") return@setOnClickListener
 
       if (btn_DEL.text == getString(R.string.btn_DEL)) {
-        val formulaStr = formula.text.toString()
-        formula.text = formulaStr.subSequence(0, formulaStr.lastIndex)
-        if (!nStr.isEmpty()) {
-          nStr = nStr.substring(0, nStr.lastIndex)
-        } else if (!oList.isEmpty()) {
-          nStr = nList.last().toString()
-          nList.remove(nList.last())
-          oList.remove(oList.last())
-        }
+        del()
       } else {
         clear()
       }
@@ -284,6 +274,21 @@ class MainActivity : Activity() {
     } catch (e: Exception) {
       println(e)
     }
+
+    println(nList)
+    println(oList)
+  }
+
+  private fun del() {
+    val formulaStr = formula.text.toString()
+    formula.text = formulaStr.subSequence(0, formulaStr.lastIndex)
+    if (!nStr.isEmpty()) {
+      nStr = nStr.substring(0, nStr.lastIndex)
+    } else if (!oList.isEmpty()) {
+      nStr = nList.last().toString()
+      nList.remove(nList.last())
+      oList.remove(oList.last())
+    }
   }
 
   private fun clear() {
@@ -324,14 +329,6 @@ class MainActivity : Activity() {
     taxExcluded.text = getString(R.string.taxExcluded) + nList[0]
     taxIncluded.text = getString(R.string.taxIncluded) + (nList[0] * 1.08).toInt()
 
-//    Log.d("##################", "##################")
-//    Log.d("this.nStr", nStr)
-//    Log.d("this.nList", this.nList.toString())
-//    Log.d("this.oList", this.oList.toString())
-//    Log.d("local.nList", nList.toString())
-//    Log.d("local.oList", oList.toString())
-//    Log.d("result", nList[0].toString())
-
     return (nList[0] * 1.08).toInt()
 
   }
@@ -345,7 +342,7 @@ class MainActivity : Activity() {
       in 20..30 -> formula.textSize = 20.0F
       else -> {
         formula.textSize = 40.0F
-        formula.gravity = BUTTOM_OR_RIGHT
+        formula.gravity = BOTTOM_OR_RIGHT
       }
     }
   }

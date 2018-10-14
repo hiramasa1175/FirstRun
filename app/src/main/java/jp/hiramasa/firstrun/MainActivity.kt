@@ -267,16 +267,9 @@ class MainActivity : Activity() {
   }
 
   private fun addList(str: String, ope: Char) {
-    try {
-      val num = str.toInt()
-      nList.add(num)
-      oList.add(ope)
-    } catch (e: Exception) {
-      println(e)
-    }
-
-    println(nList)
-    println(oList)
+    val num = str.toInt()
+    nList.add(num)
+    oList.add(ope)
   }
 
   private fun del() {
@@ -346,5 +339,7 @@ class MainActivity : Activity() {
       }
     }
   }
+
+  fun Int.toStringWithSeparator() = "%,d".format(this)
 
 }

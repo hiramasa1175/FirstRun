@@ -7,6 +7,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.StringBuilder
 
 const val CENTER_OR_RIGHT = 21
 const val BOTTOM_OR_RIGHT = 85
@@ -38,7 +39,8 @@ class MainActivity : Activity() {
       if (nStr.length > 8) return@setOnClickListener
       if (formula.text.last() !in '0'..'9') return@setOnClickListener
 
-      formula.text = "${formula.text}0"
+      formula.text = toStringWithSeparator("${formula.text}", "0")
+
       nStr += "0"
 
       formulaSetSize()
@@ -50,7 +52,7 @@ class MainActivity : Activity() {
       if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
-      formula.text = "${formula.text}1"
+      formula.text = toStringWithSeparator("${formula.text}", "1")
       nStr += "1"
 
       formulaSetSize()
@@ -62,7 +64,7 @@ class MainActivity : Activity() {
       if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
-      formula.text = "${formula.text}2"
+      formula.text = toStringWithSeparator("${formula.text}", "2")
       nStr += "2"
 
       formulaSetSize()
@@ -74,7 +76,7 @@ class MainActivity : Activity() {
       if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
-      formula.text = "${formula.text}3"
+      formula.text = toStringWithSeparator("${formula.text}", "3")
       nStr += "3"
 
       formulaSetSize()
@@ -86,7 +88,7 @@ class MainActivity : Activity() {
       if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
-      formula.text = "${formula.text}4"
+      formula.text = toStringWithSeparator("${formula.text}", "4")
       nStr += "4"
 
       formulaSetSize()
@@ -98,7 +100,7 @@ class MainActivity : Activity() {
       if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
-      formula.text = "${formula.text}5"
+      formula.text = toStringWithSeparator("${formula.text}", "5")
       nStr += "5"
 
       formulaSetSize()
@@ -110,7 +112,7 @@ class MainActivity : Activity() {
       if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
-      formula.text = "${formula.text}6"
+      formula.text = toStringWithSeparator("${formula.text}", "6")
       nStr += "6"
 
       formulaSetSize()
@@ -122,7 +124,7 @@ class MainActivity : Activity() {
       if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
-      formula.text = "${formula.text}7"
+      formula.text = toStringWithSeparator("${formula.text}", "7")
       nStr += "7"
 
       formulaSetSize()
@@ -134,7 +136,7 @@ class MainActivity : Activity() {
       if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
-      formula.text = "${formula.text}8"
+      formula.text = toStringWithSeparator("${formula.text}", "8")
       nStr += "8"
 
       formulaSetSize()
@@ -146,7 +148,7 @@ class MainActivity : Activity() {
       if (nStr.length > 8) return@setOnClickListener
       if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
 
-      formula.text = "${formula.text}9"
+      formula.text = toStringWithSeparator("${formula.text}", "9")
       nStr += "9"
 
       formulaSetSize()
@@ -234,6 +236,7 @@ class MainActivity : Activity() {
       else if (formula.text == "") clear()
 
       formulaSetSize()
+      formula.text = toStringWithSeparator("${formula.text}")
     }
 
     btn_DEL.setOnLongClickListener {
@@ -249,8 +252,9 @@ class MainActivity : Activity() {
       if (oList.isEmpty()) return@setOnClickListener
       if (formula.text.last() !in '0'..'9') return@setOnClickListener
 
-      val result = calculator().toString()
+      var result = calculator()
       formula.text = result
+      result = result.replace(",", "")
       nStr = result
       nList.clear()
       oList.clear()
@@ -289,7 +293,7 @@ class MainActivity : Activity() {
   }
 
   @SuppressLint("SetTextI18n")
-  private fun calculator(): Int {
+  private fun calculator(): String {
     val nList = nList.toMutableList()
     val oList = oList.toMutableList()
     nList.add(nStr.toInt())
@@ -313,15 +317,15 @@ class MainActivity : Activity() {
           oList.removeAt(0)
         }
 
-    taxExcluded.text = getString(R.string.taxExcluded) + nList[0]
-    taxIncluded.text = getString(R.string.taxIncluded) + (nList[0] * 1.08).toInt()
+    taxExcluded.text = getString(R.string.taxExcluded) + toStringWithSeparator(nList[0].toString())
+    taxIncluded.text = getString(R.string.taxIncluded) + toStringWithSeparator((nList[0] * 1.08).toInt().toString())
 
-    return (nList[0] * 1.08).toInt()
-
+    return toStringWithSeparator((nList[0] * 1.08).toInt().toString())
   }
 
   private fun formulaSetSize() {
-    when (formula.length()) {
+    val result = "${formula.text}".replace(",", "")
+    when (result.length) {
       in 15..19 -> {
         formula.textSize = 30.0F
         formula.gravity = CENTER_OR_RIGHT
@@ -332,6 +336,23 @@ class MainActivity : Activity() {
         formula.gravity = BOTTOM_OR_RIGHT
       }
     }
+  }
+
+  private fun toStringWithSeparator(str: String, append: String = ""): String {
+    var result = str + append
+    result = result.replace(",", "")
+    var strBuilder = StringBuilder().append(result)
+    var count = 0
+    for ((index, value) in strBuilder.withIndex().reversed()) {
+      if (value in '0'..'9') count++ else count = 0
+      if (count == 3 && index != 0) {
+        if (strBuilder[index - 1] in '0'..'9')
+          strBuilder = strBuilder.insert(index, ",")
+        count = 0
+      }
+    }
+
+    return strBuilder.toString()
   }
 
 }

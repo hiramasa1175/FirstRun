@@ -36,10 +36,7 @@ class MainActivity : Activity() {
       if (formula.text == "") return@setOnClickListener
       if (formula.length() > 29) return@setOnClickListener
       if (nStr.length > 8) return@setOnClickListener
-      if (formula.text.last() == '+') return@setOnClickListener
-      if (formula.text.last() == '−') return@setOnClickListener
-      if (formula.text.last() == '×') return@setOnClickListener
-      if (formula.text.last() == '÷') return@setOnClickListener
+      if (formula.text.last() !in '0'..'9') return@setOnClickListener
 
       formula.text = "${formula.text}0"
       nStr += "0"
@@ -250,10 +247,7 @@ class MainActivity : Activity() {
     btn_equal.setOnClickListener {
       if (formula.text == "") return@setOnClickListener
       if (oList.isEmpty()) return@setOnClickListener
-      if (formula.text.last() == '+') return@setOnClickListener
-      if (formula.text.last() == '−') return@setOnClickListener
-      if (formula.text.last() == '×') return@setOnClickListener
-      if (formula.text.last() == '÷') return@setOnClickListener
+      if (formula.text.last() !in '0'..'9') return@setOnClickListener
 
       val result = calculator().toString()
       formula.text = result
@@ -339,7 +333,5 @@ class MainActivity : Activity() {
       }
     }
   }
-
-  fun Int.toStringWithSeparator() = "%,d".format(this)
 
 }

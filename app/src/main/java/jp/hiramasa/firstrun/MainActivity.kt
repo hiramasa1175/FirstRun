@@ -33,194 +33,63 @@ class MainActivity : Activity() {
     mAdView.loadAd(adRequest)
 
     btn_0.setOnClickListener {
-      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
       if (formula.text == "") return@setOnClickListener
-      if (formula.length() > 29) return@setOnClickListener
-      if (nStr.length > 8) return@setOnClickListener
       if (formula.text.last() !in '0'..'9') return@setOnClickListener
+      if (btn_DEL.text == getString(R.string.btn_CLR)) return@setOnClickListener
 
-      formula.text = toStringWithSeparator("${formula.text}", "0")
-
-      nStr += "0"
-
-      formulaSetSize()
-      calculator()
+      setNumberButton("0")
     }
 
     btn_1.setOnClickListener {
-      if (formula.length() > 29) return@setOnClickListener
-      if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
-
-      formula.text = toStringWithSeparator("${formula.text}", "1")
-      nStr += "1"
-
-      formulaSetSize()
-      calculator()
+      setNumberButton("1")
     }
 
     btn_2.setOnClickListener {
-      if (formula.length() > 29) return@setOnClickListener
-      if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
-
-      formula.text = toStringWithSeparator("${formula.text}", "2")
-      nStr += "2"
-
-      formulaSetSize()
-      calculator()
+      setNumberButton("2")
     }
 
     btn_3.setOnClickListener {
-      if (formula.length() > 29) return@setOnClickListener
-      if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
-
-      formula.text = toStringWithSeparator("${formula.text}", "3")
-      nStr += "3"
-
-      formulaSetSize()
-      calculator()
+      setNumberButton("3")
     }
 
     btn_4.setOnClickListener {
-      if (formula.length() > 29) return@setOnClickListener
-      if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
-
-      formula.text = toStringWithSeparator("${formula.text}", "4")
-      nStr += "4"
-
-      formulaSetSize()
-      calculator()
+      setNumberButton("4")
     }
 
     btn_5.setOnClickListener {
-      if (formula.length() > 29) return@setOnClickListener
-      if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
-
-      formula.text = toStringWithSeparator("${formula.text}", "5")
-      nStr += "5"
-
-      formulaSetSize()
-      calculator()
+      setNumberButton("5")
     }
 
     btn_6.setOnClickListener {
-      if (formula.length() > 29) return@setOnClickListener
-      if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
-
-      formula.text = toStringWithSeparator("${formula.text}", "6")
-      nStr += "6"
-
-      formulaSetSize()
-      calculator()
+      setNumberButton("6")
     }
 
     btn_7.setOnClickListener {
-      if (formula.length() > 29) return@setOnClickListener
-      if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
-
-      formula.text = toStringWithSeparator("${formula.text}", "7")
-      nStr += "7"
-
-      formulaSetSize()
-      calculator()
+      setNumberButton("7")
     }
 
     btn_8.setOnClickListener {
-      if (formula.length() > 29) return@setOnClickListener
-      if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
-
-      formula.text = toStringWithSeparator("${formula.text}", "8")
-      nStr += "8"
-
-      formulaSetSize()
-      calculator()
+      setNumberButton("8")
     }
 
     btn_9.setOnClickListener {
-      if (formula.length() > 29) return@setOnClickListener
-      if (nStr.length > 8) return@setOnClickListener
-      if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
-
-      formula.text = toStringWithSeparator("${formula.text}", "9")
-      nStr += "9"
-
-      formulaSetSize()
-      calculator()
+      setNumberButton("9")
     }
 
     btn_plus.setOnClickListener {
-      if (formula.text == "") return@setOnClickListener
-      if (formula.length() > 29) return@setOnClickListener
-      if (formula.text.last() == '+') return@setOnClickListener
-
-      if (formula.text.last() == '−' || formula.text.last() == '×'
-          || formula.text.last() == '÷') del()
-
-      if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
-
-      formula.text = "${formula.text}+"
-      addList(nStr, '+')
-      nStr = ""
-
-      formulaSetSize()
+      setOperatorButton('+', '−', '×', '÷')
     }
 
     btn_minus.setOnClickListener {
-      if (formula.text == "") return@setOnClickListener
-      if (formula.length() > 29) return@setOnClickListener
-      if (formula.text.last() == '−') return@setOnClickListener
-
-      if (formula.text.last() == '+' || formula.text.last() == '×'
-          || formula.text.last() == '÷') del()
-
-      if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
-
-      formula.text = "${formula.text}−"
-      addList(nStr, '−')
-      nStr = ""
-
-      formulaSetSize()
+      setOperatorButton('−', '+', '×', '÷')
     }
 
     btn_times.setOnClickListener {
-      if (formula.text == "") return@setOnClickListener
-      if (formula.length() > 29) return@setOnClickListener
-      if (formula.text.last() == '×') return@setOnClickListener
-
-      if (formula.text.last() == '+' || formula.text.last() == '−'
-          || formula.text.last() == '÷') del()
-
-      if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
-
-      formula.text = "${formula.text}×"
-      addList(nStr, '×')
-      nStr = ""
-
-      formulaSetSize()
+      setOperatorButton('×', '+', '−', '÷')
     }
 
     btn_divided.setOnClickListener {
-      if (formula.text == "") return@setOnClickListener
-      if (formula.length() > 29) return@setOnClickListener
-      if (formula.text.last() == '÷') return@setOnClickListener
-
-      if (formula.text.last() == '+' || formula.text.last() == '−'
-          || formula.text.last() == '×') del()
-
-      if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
-
-      formula.text = "${formula.text}÷"
-      addList(nStr, '÷')
-      nStr = ""
-
-      formulaSetSize()
+      setOperatorButton('÷', '+', '−', '×')
     }
 
     btn_DEL.setOnClickListener {
@@ -262,6 +131,36 @@ class MainActivity : Activity() {
 
       formulaSetSize()
     }
+  }
+
+  private fun setNumberButton(num: String) {
+    if (formula.length() > 29) return
+    if (nStr.length > 8) return
+    if (btn_DEL.text == getString(R.string.btn_CLR)) clear()
+
+    formula.text = toStringWithSeparator("${formula.text}", num)
+    nStr += num
+
+    formulaSetSize()
+    calculator()
+  }
+
+  @SuppressLint("SetTextI18n")
+  private fun setOperatorButton(mOpe: Char, sOpe2: Char, sOpe3: Char, sOpe4: Char) {
+    if (formula.text == "") return
+    if (formula.length() > 29) return
+    if (formula.text.last() == mOpe) return
+
+    if (formula.text.last() == sOpe2 || formula.text.last() == sOpe3
+        || formula.text.last() == sOpe4) del()
+
+    if (btn_DEL.text == getString(R.string.btn_CLR)) btn_DEL.text = getString(R.string.btn_DEL)
+
+    formula.text = "${formula.text}$mOpe"
+    addList(nStr, mOpe)
+    nStr = ""
+
+    formulaSetSize()
   }
 
   private fun addList(str: String, ope: Char) {

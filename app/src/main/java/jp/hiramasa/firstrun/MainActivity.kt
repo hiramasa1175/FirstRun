@@ -22,7 +22,7 @@ class MainActivity : Activity() {
   private val nList = mutableListOf<Int>()
   private val oList = mutableListOf<Char>()
 
-  private var off = ""
+  private var off = "0"
 
   lateinit var mAdView: AdView
 
@@ -110,7 +110,7 @@ class MainActivity : Activity() {
       if (!nStr.isEmpty()) calculator()
       else if (formula.text == "") clear()
 
-      formulaSetSize()
+      setFormulaSize()
       formula.text = toStringWithSeparator("${formula.text}")
     }
 
@@ -136,7 +136,7 @@ class MainActivity : Activity() {
       oList.clear()
       btn_DEL.text = getString(R.string.btn_CLR)
 
-      formulaSetSize()
+      setFormulaSize()
     }
   }
 
@@ -148,7 +148,7 @@ class MainActivity : Activity() {
     formula.text = toStringWithSeparator("${formula.text}", num)
     nStr += num
 
-    formulaSetSize()
+    setFormulaSize()
     calculator()
   }
 
@@ -167,7 +167,7 @@ class MainActivity : Activity() {
     addList(nStr, mOpe)
     nStr = ""
 
-    formulaSetSize()
+    setFormulaSize()
   }
 
   private fun addList(str: String, ope: Char) {
@@ -223,13 +223,14 @@ class MainActivity : Activity() {
           oList.removeAt(0)
         }
 
-    taxExcluded.text = getString(R.string.taxExcluded) + toStringWithSeparator(nList[0].toString())
-    taxIncluded.text = getString(R.string.taxIncluded) + toStringWithSeparator((nList[0] * 1.08).toInt().toString())
+    val result = (nList[0] * (1.0 - (0.01 * off.toInt()))).toFloat().toInt()
+    taxExcluded.text = getString(R.string.taxExcluded) + toStringWithSeparator(result.toString())
+    taxIncluded.text = getString(R.string.taxIncluded) + toStringWithSeparator((result * 1.08).toInt().toString())
 
-    return toStringWithSeparator((nList[0] * 1.08).toInt().toString())
+    return toStringWithSeparator((result * 1.08).toInt().toString())
   }
 
-  private fun formulaSetSize() {
+  private fun setFormulaSize() {
     val result = "${formula.text}".replace(",", "")
     when (result.length) {
       in 15..19 -> {
@@ -275,13 +276,14 @@ class MainActivity : Activity() {
     layout.numPicker2.maxValue = 9
 
     val builder = AlertDialog.Builder(this)
-    builder.setTitle("～パーセント引き")
+    builder.setTitle(getString(R.string.off_message))
     builder.setView(layout)
-    builder.setPositiveButton("OK") { _, _ ->
+    builder.setPositiveButton(getString(R.string.OK)) { _, _ ->
       off = layout.numPicker1.value.toString() + layout.numPicker2.value.toString()
       btn_OFF.text = "${off.toInt()}" + getString(R.string.btn_OFF)
+      if (!nStr.isEmpty()) calculator()
     }
-    builder.setNegativeButton("Cancel") { _, _ ->
+    builder.setNegativeButton(getString(R.string.Cancel)) { _, _ ->
     }
 
     builder.create().show()

@@ -261,6 +261,7 @@ class MainActivity : Activity() {
     return strBuilder.toString()
   }
 
+  @SuppressLint("SetTextI18n")
   private fun setOff() {
     val inflater = this.getSystemService(
         Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -278,6 +279,7 @@ class MainActivity : Activity() {
     builder.setView(layout)
     builder.setPositiveButton("OK") { _, _ ->
       off = layout.numPicker1.value.toString() + layout.numPicker2.value.toString()
+      btn_OFF.text = "${off.toInt()}" + getString(R.string.btn_OFF)
     }
     builder.setNegativeButton("Cancel") { _, _ ->
     }

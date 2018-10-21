@@ -14,7 +14,7 @@
   <string name="btn_DEL">DEL</string>
   <string name="btn_CLR">CLR</string>
   <string name="btn_OFF">%OFF</string>
-  <string name="off_message">パーセント引き</string>
+  <string name="off_message">パーセントオフ</string>
   <string name="OK">OK</string>
   <string name="Cancel">Cancel</string>
   <string name="btn_equal">=</string>
